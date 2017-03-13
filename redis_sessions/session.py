@@ -72,12 +72,12 @@ class RedisServer():
                 password=getattr(settings, 'SESSION_REDIS_PASSWORD', None)
             ).master_for(settings.SESSION_REDIS_SENTINEL_MASTER_ALIAS)
 
-        elif self.connection_type == 'redis_url':
+        elif self.connection_type in ('redis_url','redis_unix_url'):
             self.__redis[self.connection_key] = redis.StrictRedis.from_url(
                 settings.SESSION_REDIS_URL,
                 socket_timeout=settings.SESSION_REDIS_SOCKET_TIMEOUT
             )
-        elif self.connection_type == 'unix_url':
+        elif self.connection_type in ('unix_url','redis_host'):
             self.__redis[self.connection_key] = redis.StrictRedis(
                 host=settings.SESSION_REDIS_HOST,
                 port=settings.SESSION_REDIS_PORT,
